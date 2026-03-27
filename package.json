@@ -1,0 +1,25 @@
+{
+  "name": "bekallaapp",
+  "version": "1.0.0",
+  "description": "Add todos and checklists for our house ",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Karl-afk/bekallaapp.git"
+  },
+  "keywords": [
+    "house",
+    "todos",
+    "reminder",
+    "checklist"
+  ],
+  "author": "Karl Weinmüller",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Karl-afk/bekallaapp/issues"
+  },
+  "homepage": "https://github.com/Karl-afk/bekallaapp#readme"
+}
