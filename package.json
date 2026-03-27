@@ -4,6 +4,7 @@
   "description": "Add todos and checklists for our house ",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "test"
   },
   "repository": {
