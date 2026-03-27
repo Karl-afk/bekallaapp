@@ -22,5 +22,8 @@
   "bugs": {
     "url": "https://github.com/Karl-afk/bekallaapp/issues"
   },
-  "homepage": "https://github.com/Karl-afk/bekallaapp#readme"
+  "homepage": "https://github.com/Karl-afk/bekallaapp#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
 }
