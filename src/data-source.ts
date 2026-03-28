@@ -3,6 +3,7 @@ import { Stay } from './entities/Stay';
 import { Task } from './entities/Task';
 import { User } from './entities/User';
 import { PushSubscription } from './entities/PushSubscription';
+import { DefaultTask } from './entities/DefaultTasks';
 
 export const AppDataSource = new DataSource({
   type: 'mysql',
@@ -11,10 +12,10 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USER || 'root',
   password: process.env.DB_PASS || 'password',
   database: process.env.DB_NAME || 'bekalla',
-  entities: [Stay, Task, PushSubscription, User],
-  synchronize: false, // Prod: false + Migrations!
+  entities: [Stay, Task, PushSubscription, User, DefaultTask],
+  synchronize: true, // Prod: false + Migrations!
   migrations: [__dirname + '/migrations/**/*{.js,.ts}'],
-  logging: false,
+  logging: true,
 
   migrationsRun: false,
   migrationsTransactionMode: 'all',

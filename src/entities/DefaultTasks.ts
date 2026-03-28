@@ -1,8 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Stay } from './Stay';
 
-@Entity('tasks')
-export class Task {
+@Entity('default_tasks')
+export class DefaultTask {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -18,7 +18,4 @@ export class Task {
 
   @Column({ type: 'bool', default: false })
   isDone: boolean;
-
-  @ManyToOne(() => Stay, (stay) => stay.tasks)
-  stay: Stay;
 }
