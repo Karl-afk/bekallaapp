@@ -4,9 +4,14 @@
   "description": "Add todos and checklists for our house ",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node dist/index.js",
+    "dev": "tsx watch index.ts",
     "build": "tsc",
-    "test": "test"
+    "test": "test",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
+    "migration:generate": "npm run typeorm -- migration:generate src/migrations/migration -d src/data-source.ts",
+    "migration:create": "npm run typeorm -- migration:create src/migrations/migration -t",
+    "migration:run": "npm run typeorm migration:run -- -d src/data-source.ts"
   },
   "repository": {
     "type": "git",
@@ -25,10 +30,21 @@
   },
   "homepage": "https://github.com/Karl-afk/bekallaapp#readme",
   "dependencies": {
-    "express": "^5.2.1"
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mysql2": "^3.20.0",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.28"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^25.5.0",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
     "tsx": "^4.21.0",
     "typescript": "^6.0.2"
   }
