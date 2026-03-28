@@ -8,7 +8,7 @@ import { authenticateToken } from './src/middleware/authenticateToken';
 import bcrypt from 'bcryptjs';
 import { User } from './src/entities/User';
 import { generateToken } from './src/helper/tokenHelper';
-import jwt from 'jsonwebtoken';
+import helmet from 'helmet';
 
 AppDataSource.initialize()
   .then(() => {
@@ -19,6 +19,7 @@ AppDataSource.initialize()
 
     app.use(cors());
     app.use(express.json());
+    app.use(helmet());
     // app.use(authenticateToken);
 
     app.get('/', (req, res) => {
