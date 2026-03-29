@@ -18,4 +18,10 @@ export class DefaultTask {
 
   @Column({ type: 'bool', default: false })
   isDone: boolean;
+
+  @Column({
+    type: 'smallint',
+    nullable: true,
+  })
+  amount: number;
 }

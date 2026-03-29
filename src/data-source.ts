@@ -13,7 +13,7 @@ export const AppDataSource = new DataSource({
   password: process.env.DB_PASS || 'password',
   database: process.env.DB_NAME || 'bekalla',
   entities: [Stay, Task, PushSubscription, User, DefaultTask],
-  synchronize: true, // Prod: false + Migrations!
+  synchronize: false, // Prod: false + Migrations!
   migrations: [__dirname + '/migrations/**/*{.js,.ts}'],
   logging: true,
 

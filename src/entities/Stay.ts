@@ -15,6 +15,6 @@ export class Stay {
   @Column('date')
   endDate: string;
 
-  @OneToMany(() => Task, (task) => task.stay)
+  @OneToMany(() => Task, (task) => task.stay, { cascade: true })
   tasks: Task[];
 }

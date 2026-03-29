@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Stay } from './Stay';
 
 @Entity('tasks')
@@ -19,6 +25,15 @@ export class Task {
   @Column({ type: 'bool', default: false })
   isDone: boolean;
 
-  @ManyToOne(() => Stay, (stay) => stay.tasks)
+  @Column({
+    type: 'smallint',
+    nullable: true,
+  })
+  amount: number;
+
+  @ManyToOne(() => Stay, (stay) => stay.tasks, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'stayId' })
   stay: Stay;
 }

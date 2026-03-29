@@ -5,7 +5,7 @@ import bcrypt from 'bcryptjs';
 import { User } from '../entities/User';
 
 const authRouter = Router();
-const registerActive = process.env.REGISTER_ACTIVE || 'true';
+const registerActive = process.env.REGISTER_ACTIVE || 'false';
 
 if (registerActive !== 'false') {
   authRouter.post('/register', async (req, res) => {

@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import staysRouter from './src/routes/staysRouter';
 import authRouter from './src/routes/authRouter';
 import taskRouter from './src/routes/taskRouter';
+import defaultTasksRouter from './src/routes/deafultTasksRouter';
 
 AppDataSource.initialize()
   .then(() => {
@@ -20,6 +21,7 @@ AppDataSource.initialize()
     app.use('/api/v1/stays', staysRouter);
     app.use('/api/v1/auth', authRouter);
     app.use('/api/v1/tasks', taskRouter);
+    app.use('/api/v1/default-tasks', defaultTasksRouter);
 
     app.get('/', (req, res) => {
       res.send('Hello World! from E, myVar: ' + myVariable);

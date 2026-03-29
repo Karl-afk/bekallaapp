@@ -3,7 +3,7 @@ import { AppDataSource } from '../data-source';
 import { Task } from '../entities/Task';
 import { authenticateToken } from '../middleware/authenticateToken';
 import { Stay } from '../entities/Stay';
-import { DeleteResult } from 'typeorm';
+import { DefaultTask } from '../entities/DefaultTasks';
 
 const staysRouter = Router();
 
@@ -14,12 +14,7 @@ staysRouter.post('/', async (req, res) => {
   const stay = await stayRepo.create(req.body as Stay);
   const saved = await stayRepo.save(stay);
   // Templates zu Tasks kopieren (Standard-Listen)
-  const defaultTasks = [
-    { title: 'Milch', category: 'shopping' as const },
-    { title: 'Klopapier', category: 'shopping' as const },
-    { title: 'Bettwäsche gewaschen', category: 'departure' as const },
-    { title: 'Fenster zu', category: 'departure' as const },
-  ];
+  const defaultTasks = await AppDataSource.getRepository(DefaultTask).find();
   for (const t of defaultTasks) {
     const task = AppDataSource.getRepository(Task).create({
       ...t,
@@ -67,16 +62,17 @@ staysRouter.put('/:id', async (req, res) => {
   return res.json({ stay });
 });
 
-staysRouter.put('/:id', async (req, res) => {
+staysRouter.delete('/:id', async (req, res) => {
   const stayRepo = AppDataSource.getRepository(Stay);
-  const stay = await stayRepo.findOneBy({
-    id: req.params.id,
+  const stay = await stayRepo.findOne({
+    where: {
+      id: req.params.id,
+    },
   });
   if (!stay) return res.status(404);
 
-  await stayRepo.delete(stay);
+  await stayRepo.remove(stay);
 
-  return res.status(204);
+  return res.status(204).send();
 });
-
 export default staysRouter;

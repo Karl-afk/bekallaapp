@@ -3,7 +3,7 @@ content-type: application/json
 Authorization: Bearer {{$dotenv AUTH_TOKEN}}
 
 {
-    "title": "ostern 2026",
+    "title": "frühling 2026",
     "startDate": "2026-03-20",
     "endDate": "2026-04-20"
 }
@@ -12,10 +12,15 @@ Authorization: Bearer {{$dotenv AUTH_TOKEN}}
 GET http://localhost:3000/stays/8f2127fb-eaa3-4e35-8b81-11715fdb4c5f/tasks
 Authorization: Bearer {{$dotenv AUTH_TOKEN}}
 
+###
+
 GET http://localhost:3000/api/v1/stays
 Authorization: Bearer {{$dotenv AUTH_TOKEN}}
 ###
+DELETE http://localhost:3000/api/v1/stays/0d1333fe-a9ff-4f7a-b638-f67d38855e78
+Authorization: Bearer {{$dotenv AUTH_TOKEN}}
 
+###
 POST http://localhost:3000/api/v1/auth/register
 content-type: application/json
 
@@ -33,4 +38,46 @@ content-type: application/json
 {
     "email": "email@email.com",
     "password": "password"
+}
+
+###
+
+POST http://localhost:3000/api/v1/default-tasks
+content-type: application/json
+Authorization: Bearer {{$dotenv AUTH_TOKEN}}
+
+{
+    "title": "Fenster zu",
+    "category": "departure"
+}
+
+###
+
+POST http://localhost:3000/api/v1/default-tasks
+content-type: application/json
+Authorization: Bearer {{$dotenv AUTH_TOKEN}}
+
+{
+    "title": "test",
+    "category": "departure"
+}
+
+###
+GET http://localhost:3000/api/v1/default-tasks
+content-type: application/json
+Authorization: Bearer {{$dotenv AUTH_TOKEN}}
+
+###
+DELETE http://localhost:3000/api/v1/default-tasks/5baacf4b-af1f-4cb0-8585-965199aa5676
+content-type: application/json
+Authorization: Bearer {{$dotenv AUTH_TOKEN}}
+
+###
+
+PUT http://localhost:3000/api/v1/default-tasks/0a936460-6854-49a0-a1e5-bc800e001e4e
+content-type: application/json
+Authorization: Bearer {{$dotenv AUTH_TOKEN}}
+
+{
+    "category": "shopping"
 }
