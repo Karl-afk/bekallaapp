@@ -7,6 +7,7 @@ import staysRouter from './src/routes/staysRouter';
 import authRouter from './src/routes/authRouter';
 import taskRouter from './src/routes/taskRouter';
 import defaultTasksRouter from './src/routes/deafultTasksRouter';
+import cookieParser from 'cookie-parser';
 
 AppDataSource.initialize()
   .then(() => {
@@ -14,9 +15,18 @@ AppDataSource.initialize()
     const port = process.env.PORT || 3000;
     const myVariable = process.env.MYVARIABLE || 'default';
 
-    app.use(cors());
+    console.log(process.env.NODE_ENV);
+
+    app.use(
+      cors({
+        origin: 'http://localhost:4200', // Dein Frontend!
+        credentials: true, // ← Cookies erlauben!
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+      }),
+    );
     app.use(express.json());
     app.use(helmet());
+    app.use(cookieParser());
 
     app.use('/api/v1/stays', staysRouter);
     app.use('/api/v1/auth', authRouter);

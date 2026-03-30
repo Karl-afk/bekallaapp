@@ -9,7 +9,7 @@ export const authenticateToken = (req: any, res: any, next: any) => {
   if (!token) return res.status(401).json({ message: 'Access Denied' });
 
   jwt.verify(token, SECRET_KEY, (err: any, user: any) => {
-    if (err) return res.status(403).json({ message: 'Invalid Token' });
+    if (err) return res.status(401).json({ message: 'Invalid Token' });
     req.user = user;
     next();
   });

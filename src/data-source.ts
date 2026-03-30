@@ -15,7 +15,7 @@ export const AppDataSource = new DataSource({
   entities: [Stay, Task, PushSubscription, User, DefaultTask],
   synchronize: false, // Prod: false + Migrations!
   migrations: [__dirname + '/migrations/**/*{.js,.ts}'],
-  logging: true,
+  logging: false,
 
   migrationsRun: false,
   migrationsTransactionMode: 'all',

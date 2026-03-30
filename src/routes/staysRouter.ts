@@ -37,7 +37,7 @@ staysRouter.get('/:id/tasks', async (req, res) => {
 staysRouter.get('/', async (req, res) => {
   const stays = await AppDataSource.getRepository(Stay).find();
 
-  res.json({ stays });
+  res.status(200).json({ stays });
 });
 
 staysRouter.put('/:id', async (req, res) => {
