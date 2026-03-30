@@ -14,12 +14,11 @@ AppDataSource.initialize()
     const app = express();
     const port = process.env.PORT || 3000;
     const myVariable = process.env.MYVARIABLE || 'default';
-
-    console.log(process.env.NODE_ENV);
+    const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:4200';
 
     app.use(
       cors({
-        origin: 'http://localhost:4200', // Dein Frontend!
+        origin: FRONTEND_URL,
         credentials: true, // ← Cookies erlauben!
         methods: ['GET', 'POST', 'PUT', 'DELETE'],
       }),
