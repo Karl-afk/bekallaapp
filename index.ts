@@ -14,7 +14,8 @@ AppDataSource.initialize()
     const app = express();
     const port = process.env.PORT || 3000;
     const myVariable = process.env.MYVARIABLE || 'default';
-    const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:4200';
+    const FRONTEND_URL =
+      process.env.FRONTEND_URL || 'https://bekalla.kwserv.de';
 
     app.use(
       cors({
