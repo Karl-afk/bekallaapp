@@ -26,40 +26,88 @@ staysRouter.post('/', async (req, res) => {
 });
 
 staysRouter.get('/:id/tasks', async (req, res) => {
-  const tasks = await AppDataSource.getRepository(Task).find({
-    where: { stay: { id: req.params.id } },
-    relations: { stay: true },
+  const stay = await AppDataSource.getRepository(Stay).findOne({
+    where: { id: req.params.id },
+    relations: { tasks: true },
   });
-  if (tasks.length === 0) res.status(404);
-  res.json(tasks);
+  console.log('🚀 ~ tasks:', stay);
+  if (!stay) res.status(404);
+  res.json(stay);
 });
 
 staysRouter.get('/', async (req, res) => {
-  const stays = await AppDataSource.getRepository(Stay).find();
+  const stays = await AppDataSource.getRepository(Stay).find({
+    relations: { tasks: true },
+  });
 
   res.status(200).json({ stays });
 });
 
 staysRouter.put('/:id', async (req, res) => {
   const stayRepo = AppDataSource.getRepository(Stay);
-  const stay = await stayRepo.findOneBy({
-    id: req.params.id,
+  const taskRepo = AppDataSource.getRepository(Task);
+  const stay = await stayRepo.findOne({
+    where: { id: req.params.id },
+    relations: { tasks: true },
   });
   if (!stay) return res.status(404);
 
-  if (req.body.title) {
-    stay.title = req.body.title;
+  const updateData: Partial<Stay> = {};
+
+  if (req.body.title !== undefined) {
+    updateData.title = req.body.title;
   }
-  if (req.body.startDate) {
-    stay.startDate = req.body.startDate;
+  if (req.body.startDate !== undefined) {
+    updateData.startDate = req.body.startDate;
   }
-  if (req.body.endDate) {
-    stay.endDate = req.body.endDate;
+  if (req.body.endDate !== undefined) {
+    updateData.endDate = req.body.endDate;
   }
 
-  stayRepo.save(stay);
+  await stayRepo.update({ id: req.params.id }, updateData);
 
-  return res.json({ stay });
+  if (Array.isArray(req.body.tasks)) {
+    const incomingIds = req.body.tasks
+      .filter((t: any) => t.id)
+      .map((t: any) => t.id);
+
+    // Tasks löschen die nicht mehr im Array sind
+    const toDelete = stay.tasks.filter((t) => !incomingIds.includes(t.id));
+    if (toDelete.length > 0) {
+      await taskRepo.remove(toDelete);
+    }
+    for (const taskData of req.body.tasks) {
+      if (taskData.id) {
+        // Bestehenden Task updaten
+        await taskRepo.update(
+          { id: taskData.id },
+          {
+            title: taskData.title,
+            category: taskData.category,
+            isDone: taskData.isDone,
+            amount: taskData.amount ?? null,
+          },
+        );
+      } else {
+        // Neuen Task erstellen
+        const newTask = taskRepo.create({
+          title: taskData.title,
+          category: taskData.category,
+          isDone: taskData.isDone ?? false,
+          amount: taskData.amount ?? null,
+          stay: stay,
+        });
+        await taskRepo.save(newTask);
+      }
+    }
+  }
+
+  const updatedStay = await stayRepo.findOne({
+    where: { id: req.params.id },
+    relations: { tasks: true },
+  });
+
+  return res.json({ updatedStay });
 });
 
 staysRouter.delete('/:id', async (req, res) => {

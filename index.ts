@@ -8,14 +8,16 @@ import authRouter from './src/routes/authRouter';
 import taskRouter from './src/routes/taskRouter';
 import defaultTasksRouter from './src/routes/deafultTasksRouter';
 import cookieParser from 'cookie-parser';
+import { errorHandler } from './src/middleware/errorHandler';
+import { authenticateToken } from './src/middleware/authenticateToken';
+import { HttpException } from './src/types/HttpException';
 
 AppDataSource.initialize()
   .then(() => {
     const app = express();
     const port = process.env.PORT || 3000;
     const myVariable = process.env.MYVARIABLE || 'default';
-    const FRONTEND_URL =
-      process.env.FRONTEND_URL || 'https://bekalla.kwserv.de';
+    const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:4200';
 
     app.use(
       cors({
@@ -34,8 +36,11 @@ AppDataSource.initialize()
     app.use('/api/v1/default-tasks', defaultTasksRouter);
 
     app.get('/', (req, res) => {
+      throw new HttpException(500, 'Test error handling', 'Test Error');
       res.send('Hello World! from E, myVar: ' + myVariable);
     });
+
+    app.use(errorHandler);
 
     app.listen(port, () => {
       console.log(`App is running... (port: ${port})`);

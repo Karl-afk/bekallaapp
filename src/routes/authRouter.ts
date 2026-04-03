@@ -4,8 +4,10 @@ import { AppDataSource } from '../data-source';
 import bcrypt from 'bcryptjs';
 import { User } from '../entities/User';
 import { authenticateToken } from '../middleware/authenticateToken';
+import { HttpException } from '../types/HttpException';
 
 const authRouter = Router();
+const errorTitle = 'Authentication Error';
 const registerActive = process.env.REGISTER_ACTIVE || 'false';
 
 if (registerActive !== 'false') {
@@ -28,7 +30,8 @@ if (registerActive !== 'false') {
 
 authRouter.post('/login', async (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password) return res.status(422);
+  if (!email || !password)
+    throw new HttpException(422, 'Email and password are required', errorTitle);
   const userRepo = AppDataSource.getRepository(User);
   const existintUser = await userRepo.findOneBy({ email: email });
 
@@ -42,9 +45,10 @@ authRouter.post('/login', async (req, res) => {
       sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
+
     return res.json({ token, message: 'successfully logged in' });
   }
-  res.status(400).json({ message: 'Invalid credentials' });
+  throw new HttpException(400, 'Invalid credentials', errorTitle);
 });
 
 authRouter.get('/me', authenticateToken, async (req, res) => {
@@ -59,15 +63,15 @@ authRouter.get('/me', authenticateToken, async (req, res) => {
 authRouter.post('/refresh', async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken)
-    return res.status(401).json({ message: 'No refresh token' });
+    throw new HttpException(401, 'No refresh token', errorTitle);
 
   var decoded = verifyToken(refreshToken, 'refresh');
   if (!decoded || typeof decoded === 'string')
-    return res.status(403).json({ message: 'Invalid token' });
+    throw new HttpException(403, 'Invalid token', errorTitle);
 
   const userRepo = AppDataSource.getRepository(User);
   const user = await userRepo.findOneBy({ id: decoded.id });
-  if (!user) return res.status(401).json({ message: 'Unauthorized' });
+  if (!user) throw new HttpException(401, 'Unauthorized', errorTitle);
 
   const newToken = generateToken(user, 'access');
   const newRefreshToken = generateToken(user, 'refresh');
@@ -80,6 +84,17 @@ authRouter.post('/refresh', async (req, res) => {
   });
 
   res.json({ token: newToken, message: 'Token refreshed' });
+});
+
+authRouter.post('/logout', (req, res) => {
+  res.clearCookie('refreshToken', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax',
+    path: '/',
+  });
+
+  return res.status(200).json({ message: 'Logged out' });
 });
 
 export default authRouter;

@@ -5,7 +5,7 @@ type TokenContext = 'access' | 'refresh';
 
 export function generateToken(user: User, context: TokenContext = 'access') {
   const SECRET_KEY = process.env.SECRET_KEY || 'mysupersecretkey';
-  let expiresIn: jwt.JwtPayload['expiresIn'] = '1m';
+  let expiresIn: jwt.JwtPayload['expiresIn'] = '15m';
   if (context === 'refresh') {
     expiresIn = '7d';
   }

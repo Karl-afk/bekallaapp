@@ -81,3 +81,11 @@ Authorization: Bearer {{$dotenv AUTH_TOKEN}}
 {
     "category": "shopping"
 }
+
+###
+
+GET http://localhost:3000
+content-type: application/json
+Authorization: Bearer asda
+
+###
