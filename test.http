@@ -89,3 +89,12 @@ content-type: application/json
 Authorization: Bearer asda
 
 ###
+
+POST http://localhost:3000/api/v1/notify/send
+content-type: application/json
+
+{
+    "title": "test",
+    "body": "test body", 
+    "url": "/"
+}

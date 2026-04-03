@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import 'reflect-metadata';
 import express from 'express';
 import cors from 'cors';
@@ -9,8 +10,8 @@ import taskRouter from './src/routes/taskRouter';
 import defaultTasksRouter from './src/routes/deafultTasksRouter';
 import cookieParser from 'cookie-parser';
 import { errorHandler } from './src/middleware/errorHandler';
-import { authenticateToken } from './src/middleware/authenticateToken';
 import { HttpException } from './src/types/HttpException';
+import { notificationRouter } from './src/routes/notifications';
 
 AppDataSource.initialize()
   .then(() => {
@@ -34,6 +35,7 @@ AppDataSource.initialize()
     app.use('/api/v1/auth', authRouter);
     app.use('/api/v1/tasks', taskRouter);
     app.use('/api/v1/default-tasks', defaultTasksRouter);
+    app.use('/api/v1/notify', notificationRouter);
 
     app.get('/', (req, res) => {
       throw new HttpException(500, 'Test error handling', 'Test Error');

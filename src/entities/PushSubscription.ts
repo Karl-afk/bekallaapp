@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, Unique } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Unique,
+  ManyToOne,
+} from 'typeorm';
+import { User } from './User';
 
 @Entity('push_subscriptions')
 export class PushSubscription {
@@ -10,4 +17,7 @@ export class PushSubscription {
 
   @Column({ type: 'bool', default: true })
   active: boolean;
+
+  @ManyToOne(() => User, { nullable: true, onDelete: 'SET NULL' })
+  user: User | null;
 }
