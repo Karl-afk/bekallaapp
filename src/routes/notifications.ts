@@ -22,15 +22,20 @@ notificationRouter.get('/public-key', (req, res) => {
 notificationRouter.post('/subscribe', authenticateToken, async (req, res) => {
   const repo = AppDataSource.getRepository(PushSubscription);
 
-  const { subscription } = req.body;
+  const { endpoint, keys } = req.body;
 
   // Doppelte Subscription vermeiden
   const existing = await repo.findOneBy({
-    subscription: { endpoint: subscription.endpoint },
+    subscription: { endpoint: endpoint },
   });
   if (existing) return res.status(200).json({ message: 'Already subscribed' });
 
-  const sub = repo.create({ subscription });
+  const sub = repo.create({
+    subscription: {
+      endpoint,
+      keys,
+    },
+  });
   await repo.save(sub);
 
   return res.status(201).json({ message: 'Subscribed' });
