@@ -12,6 +12,8 @@ import cookieParser from 'cookie-parser';
 import { errorHandler } from './src/middleware/errorHandler';
 import { HttpException } from './src/types/HttpException';
 import { notificationRouter } from './src/routes/notifications';
+import { startScheduler } from './src/services/scheduler.service';
+import { reminderRouter } from './src/routes/reminderRouter';
 
 AppDataSource.initialize()
   .then(() => {
@@ -36,6 +38,7 @@ AppDataSource.initialize()
     app.use('/api/v1/tasks', taskRouter);
     app.use('/api/v1/default-tasks', defaultTasksRouter);
     app.use('/api/v1/notify', notificationRouter);
+    app.use('/api/v1/reminders', reminderRouter);
 
     app.get('/', (req, res) => {
       throw new HttpException(500, 'Test error handling', 'Test Error');
@@ -46,6 +49,7 @@ AppDataSource.initialize()
 
     app.listen(port, () => {
       console.log(`App is running... (port: ${port})`);
+      startScheduler();
     });
   })
   .catch((error) => {

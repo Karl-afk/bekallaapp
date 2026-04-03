@@ -38,6 +38,7 @@
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.20.0",
+    "node-cron": "^4.2.1",
     "reflect-metadata": "^0.2.2",
     "typeorm": "^0.3.28",
     "web-push": "^3.6.7"
@@ -48,6 +49,7 @@
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^25.5.0",
+    "@types/node-cron": "^3.0.11",
     "@types/web-push": "^3.6.4",
     "esbuild": "^0.27.4",
     "ts-node": "^10.9.2",
