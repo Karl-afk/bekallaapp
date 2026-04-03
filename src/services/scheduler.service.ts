@@ -27,17 +27,6 @@ export function startScheduler() {
     },
     { timezone: 'Europe/Berlin' },
   );
-  cron.schedule(
-    '* * * * *',
-    async () => {
-      console.log('[CRON] Test-Erinnerung...');
-      await sendTrashReminder({
-        title: '🗑️ Restmüll rausstellen!',
-        body: 'Morgen früh wird der Restmüll geleert.',
-      });
-    },
-    { timezone: 'Europe/Berlin' },
-  );
 
   // ─── Plastikmüll: Jeden 3. Donnerstag im Monat 18:00 Uhr ───────────────────
   // Cron läuft jeden Donnerstag → im Handler prüfen ob es der 3. ist
