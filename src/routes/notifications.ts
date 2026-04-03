@@ -19,7 +19,7 @@ notificationRouter.get('/public-key', (req, res) => {
 });
 
 // POST /api/notifications/subscribe
-notificationRouter.post('/subscribe', authenticateToken, async (req, res) => {
+notificationRouter.post('/subscribe', async (req, res) => {
   const repo = AppDataSource.getRepository(PushSubscription);
 
   const { endpoint, keys } = req.body;

@@ -90,7 +90,7 @@ Authorization: Bearer asda
 
 ###
 
-POST http://localhost:3000/api/v1/notify/send
+POST https://bekalla-api.kwserv.de/api/v1/notify/send
 content-type: application/json
 
 {
