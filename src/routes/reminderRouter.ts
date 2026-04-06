@@ -45,7 +45,7 @@ reminderRouter.put('/:id', async (req, res) => {
   const repo = AppDataSource.getRepository(Reminder);
 
   const reminder = await repo.findOne({
-    where: { id: req.params.id, user: { id: req.user?.id } },
+    where: { id: req.params.id },
   });
   if (!reminder) return res.status(404).json({ message: 'Reminder not found' });
 
@@ -77,7 +77,7 @@ reminderRouter.delete('/:id', async (req, res) => {
   const repo = AppDataSource.getRepository(Reminder);
 
   const reminder = await repo.findOne({
-    where: { id: req.params.id, user: { id: req.user?.id } },
+    where: { id: req.params.id },
   });
   if (!reminder) return res.status(404).json({ message: 'Reminder not found' });
 
