@@ -15,7 +15,7 @@ export enum ReminderFrequency {
   CUSTOM_CRON = 'custom_cron',
 }
 
-@Entity()
+@Entity('reminders')
 export class Reminder {
   @PrimaryGeneratedColumn('uuid')
   id: string;
