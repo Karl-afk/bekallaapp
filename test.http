@@ -98,3 +98,17 @@ content-type: application/json
     "body": "test body", 
     "url": "/"
 }
+
+###
+
+GET http://localhost:3000/api/v1/reminders
+content-type: application/json
+Authorization: Bearer {{$dotenv AUTH_TOKEN}}
+
+###
+
+POST http://localhost:3000/api/v1/reminders
+content-type: application/json
+Authorization: Bearer {{$dotenv AUTH_TOKEN}}
+
+###

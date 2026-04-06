@@ -10,7 +10,7 @@ export const errorHandler: ErrorRequestHandler = async (
   if (res.headersSent) {
     return next(error); // Pass to default Express error handler if response already started
   }
-  res.status(error.status).json({
+  res.status(error.status || 500).json({
     type: req.protocol + '://' + req.host,
     title: error.title || 'Error',
     detail: error.message || 'Internal Server Error',
