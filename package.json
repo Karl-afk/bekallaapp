@@ -39,6 +39,9 @@
     "jsonwebtoken": "^9.0.3",
     "mysql2": "^3.20.0",
     "node-cron": "^4.2.1",
+    "pino": "^10.3.1",
+    "pino-http": "^11.0.0",
+    "pino-loki": "^3.0.0",
     "reflect-metadata": "^0.2.2",
     "typeorm": "^0.3.28",
     "web-push": "^3.6.7"

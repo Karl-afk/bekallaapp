@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs';
 import { User } from '../entities/User';
 import { authenticateToken } from '../middleware/authenticateToken';
 import { HttpException } from '../types/HttpException';
+import { logger } from '../services/logger';
 
 const authRouter = Router();
 const errorTitle = 'Authentication Error';

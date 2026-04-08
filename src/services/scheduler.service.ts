@@ -4,6 +4,7 @@ import { Stay } from '../entities/Stay';
 import { PushSubscription } from '../entities/PushSubscription';
 import { notificationService } from './notification.service';
 import { Reminder, ReminderFrequency } from '../entities/Reminder';
+import { logger } from './logger';
 
 export function startScheduler() {
   // Reminder-Jobs alle 1 Minute prüfen
@@ -141,5 +142,6 @@ async function processReminders() {
     });
 
     console.log(`[CRON] Reminder gesendet: "${reminder.title}"`);
+    logger('info', `Reminder sent: "${reminder.title}"`, { dienst: 'Scheduler', reminderId: reminder.id, userId: reminder.user?.id });
   }
 }

@@ -14,6 +14,7 @@ import { HttpException } from './src/types/HttpException';
 import { notificationRouter } from './src/routes/notifications';
 import { startScheduler } from './src/services/scheduler.service';
 import { reminderRouter } from './src/routes/reminderRouter';
+import { logger } from './src/services/logger';
 
 AppDataSource.initialize()
   .then(() => {
@@ -21,7 +22,11 @@ AppDataSource.initialize()
     const port = process.env.PORT || 3000;
     const myVariable = process.env.MYVARIABLE || 'default';
     const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:4200';
-
+    // app.use(
+    //   pinoHttp({
+    //     logger,
+    //   })
+    // );
     app.use(
       cors({
         origin: FRONTEND_URL,
@@ -49,10 +54,12 @@ AppDataSource.initialize()
 
     app.listen(port, () => {
       console.log(`App is running... (port: ${port})`);
+      logger('info', `App started on port ${port}`, { dienst: 'Main' });
       startScheduler();
     });
   })
   .catch((error) => {
     console.log(`Error while DB connection:`);
+    logger('error', `Error while DB connection: ${error.message}`, { dienst: 'Main' });
     console.log(error);
   });
