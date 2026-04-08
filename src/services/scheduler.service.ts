@@ -131,9 +131,9 @@ async function processReminders() {
 
     // Subscriptions des Users holen
     const subRepo = AppDataSource.getRepository(PushSubscription);
-    const subscriptions = reminder.user
-      ? await subRepo.find({ where: { user: { id: reminder.user.id } } })
-      : await subRepo.find();
+    const subscriptions = await subRepo.find();
+
+    logger('info', 'subscriptions', { dienst: 'Scheduler', subs: subscriptions });
 
     await notificationService.sendToAll(subscriptions, {
       title: reminder.title,
