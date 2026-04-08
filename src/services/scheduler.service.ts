@@ -126,7 +126,7 @@ async function processReminders() {
         }
         break;
     }
-
+    logger('info', 'reminder', { reminder: reminder, shouldSend: shouldSend });
     if (!shouldSend) continue;
 
     // Subscriptions des Users holen
